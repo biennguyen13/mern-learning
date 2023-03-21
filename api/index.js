@@ -29,7 +29,7 @@ mongoose.connection.on("disconnected", () => {
 
 app.use(cookieParser())
 app.use(express.json())
-// app.use("/", (req, res) => {
+// app.use("/", (req, res, next) => {
 //   res.send("Hello")
 // })
 app.use("/api/auth", authRoute)

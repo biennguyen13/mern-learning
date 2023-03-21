@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken"
 import User from "../models/User.js"
 import { createError } from "../utils/error.js"
 
-export const register = async (req, res) => {
+export const register = async (req, res, next) => {
   try {
     const salt = bcrypt.genSaltSync(10)
     const hash = bcrypt.hashSync(req.body.password, salt)
