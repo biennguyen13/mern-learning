@@ -6,7 +6,7 @@ export const getRoom = async (req, res) => {
     const room = await Room.findById(req.params.id)
     res.status(200).json(room)
   } catch (error) {
-    res.status(500).json(error)
+    next(error)
   }
 }
 
@@ -14,17 +14,14 @@ export const createRoom = async (req, res, next) => {
   try {
     const hotelId = req.params.hotelId
     const savedRoom = await new Room(req.body).save()
-    try {
-      const result = await Hotel.findByIdAndUpdate(hotelId, {
+    if (savedRoom) {
+      await Hotel.findByIdAndUpdate(hotelId, {
         $push: { rooms: savedRoom._id },
       })
-      console.log("🚀 ~ file: rooms.js:21 ~ createRoom ~ result:", result)
-    } catch (err) {
-      next(err)
     }
-    res.status(200).json(savedRoom)
+    res.status(200).json(!!savedRoom)
   } catch (error) {
-    res.status(500).json(error)
+    next(error)
   }
 }
 
@@ -38,17 +35,22 @@ export const updateRoom = async (req, res) => {
     )
     res.status(200).json(room)
   } catch (error) {
-    res.status(500).json(error)
+    next(error)
   }
 }
 
 export const deleteRoom = async (req, res) => {
-  const { id } = req.params
+  const { id, hotelId } = req.params
   try {
     const room = await Room.findByIdAndDelete(id)
+    if (room) {
+      await Hotel.findByIdAndUpdate(hotelId, {
+        $pull: { rooms: room._id },
+      })
+    }
     res.status(200).json(!!room)
   } catch (error) {
-    res.status(500).json(error)
+    next(error)
   }
 }
 
@@ -58,6 +60,6 @@ export const getRooms = async (req, res) => {
     const room = await Room.findByIdAndDelete(id)
     res.status(200).json(!!room)
   } catch (error) {
-    res.status(500).json(error)
+    next(error)
   }
 }

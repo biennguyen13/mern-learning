@@ -14,7 +14,7 @@ export const register = async (req, res) => {
     }).save()
     res.status(200).json(user)
   } catch (error) {
-    res.status(500).json(error)
+    next(error)
   }
 }
 export const login = async (req, res, next) => {
@@ -41,6 +41,6 @@ export const login = async (req, res, next) => {
       .status(200)
       .json({ details: { ...otherDetails }, isAdmin })
   } catch (error) {
-    res.status(500).json(error)
+    next(error)
   }
 }

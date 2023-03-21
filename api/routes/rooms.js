@@ -4,10 +4,11 @@ import { verifyAdmin, verifyUser } from "../utils/verifyToken.js"
 
 const router = express.Router()
 
-router.get("/:id", verifyUser, roomCtrler.getRoom)
+
 router.post("/:hotelId", verifyUser, roomCtrler.createRoom)
 router.put("/:id", verifyAdmin, roomCtrler.updateRoom)
-router.delete("/:id", verifyAdmin, roomCtrler.deleteRoom)
+router.delete("/:id/:hotelId", verifyAdmin, roomCtrler.deleteRoom)
+router.get("/:id", roomCtrler.getRoom)
 router.get("/", roomCtrler.getRooms)
 
 export default router

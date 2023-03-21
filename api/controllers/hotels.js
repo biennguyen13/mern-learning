@@ -5,7 +5,7 @@ export const getHotel = async (req, res) => {
     const hotel = await Hotel.findById(req.params.id)
     res.status(200).json(hotel)
   } catch (error) {
-    res.status(500).json(error)
+    next(error)
   }
 }
 
@@ -14,7 +14,7 @@ export const createHotel = async (req, res) => {
     const savedHotel = await new Hotel(req.body).save()
     res.status(200).json(savedHotel)
   } catch (error) {
-    res.status(500).json(error)
+    next(error)
   }
 }
 
@@ -28,7 +28,7 @@ export const updateHotel = async (req, res) => {
     )
     res.status(200).json(hotel)
   } catch (error) {
-    res.status(500).json(error)
+    next(error)
   }
 }
 
@@ -38,7 +38,7 @@ export const deleteHotel = async (req, res) => {
     const hotel = await Hotel.findByIdAndDelete(id)
     res.status(200).json(!!hotel)
   } catch (error) {
-    res.status(500).json(error)
+    next(error)
   }
 }
 
@@ -48,6 +48,6 @@ export const getHotels = async (req, res) => {
     const hotel = await Hotel.findByIdAndDelete(id)
     res.status(200).json(!!hotel)
   } catch (error) {
-    res.status(500).json(error)
+    next(error)
   }
 }

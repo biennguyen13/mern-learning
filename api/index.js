@@ -29,7 +29,9 @@ mongoose.connection.on("disconnected", () => {
 
 app.use(cookieParser())
 app.use(express.json())
-
+// app.use("/", (req, res) => {
+//   res.send("Hello")
+// })
 app.use("/api/auth", authRoute)
 app.use("/api/hotels", hotelsRoute)
 app.use("/api/rooms", roomsRoute)
