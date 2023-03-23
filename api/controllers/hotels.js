@@ -43,8 +43,22 @@ export const deleteHotel = async (req, res, next) => {
 }
 
 export const getHotels = async (req, res, next) => {
+  const { min, max, limit, ...others } = req.query
+  const clean = (obj) => {
+    for (let propName in obj) {
+      obj[propName] || delete obj[propName]
+    }
+    return obj
+  }
   try {
-    const hotel = await Hotel.find()
+    const hotel = await Hotel.find({
+      ...clean(others),
+      cheapestPrice: {
+        $gte: min || 1,
+        $lte: max || 999,
+      },
+    }).limit(limit)
+
     res.status(200).json(hotel)
   } catch (error) {
     next(error)
