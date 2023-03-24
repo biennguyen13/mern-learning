@@ -1,5 +1,6 @@
 import Room from "../models/Room.js"
 import Hotel from "../models/Hotel.js"
+import { createError } from "../utils/error.js"
 
 export const getRoom = async (req, res, next) => {
   try {
@@ -60,5 +61,26 @@ export const getRooms = async (req, res, next) => {
     res.status(200).json(room)
   } catch (error) {
     next(error)
+  }
+}
+
+export const updateRoomAvailability = async (req, res, next) => {
+  try {
+    const result = await Room.updateOne(
+      { "roomNumbers._id": req.params.id },
+      {
+        $push: {
+          "roomNumbers.$.unavailableDates": req.body.dates,
+        },
+      }
+    )
+
+    if (!result.modifiedCount) {
+      return next(createError(400, "Room status has been not updated."))
+    }
+
+    res.status(200).json({ message: "Room status has been updated." })
+  } catch (err) {
+    next(err)
   }
 }

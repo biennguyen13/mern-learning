@@ -12,5 +12,6 @@ router.get("/", hotelCtrler.getHotels)
 router.get("/countByCity", hotelCtrler.countByCity)
 router.get("/countByType", hotelCtrler.countByType)
 router.get("/:id", hotelCtrler.getHotel)
+router.get("/room/:id", hotelCtrler.getHotelRooms)
 
 export default router

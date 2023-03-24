@@ -10,5 +10,6 @@ router.put("/:id", verifyAdmin, roomCtrler.updateRoom)
 router.delete("/:id/:hotelId", verifyAdmin, roomCtrler.deleteRoom)
 router.get("/:id", roomCtrler.getRoom)
 router.get("/", roomCtrler.getRooms)
+router.put("/availability/:id", roomCtrler.updateRoomAvailability)
 
 export default router
